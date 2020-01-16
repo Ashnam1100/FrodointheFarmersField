@@ -1,0 +1,557 @@
+import re
+import random
+import time
+from colorama import Fore, Back, Style
+ 
+frodo = [4,9]
+dogs = [0,4]
+dogs2 = [9,4]
+dogs3 = [0,0]
+dogs4 = [4, 0]
+dogs5 = [9, 0]
+count = 0
+collected=[]
+types = []
+cc = 0
+mc = 0
+
+def typesofmushrooms():
+  for x in range(100):
+    types.append(random.randrange(2))
+    
+start = time.time()
+def helpf():
+  print(Style.RESET_ALL)
+  print(Fore.GREEN + "RUN TO ____ " + Style.RESET_ALL + "\n\tBlank can be filled with GATE or FERRY. \n\tEnds game, and you've escaped Farmer Maggot's dogs.")
+  print(Fore.GREEN + "MOVE ____ " + Style.RESET_ALL + "\n\tBlank can be filled with EAST,WEST,NORTH, or SOUTH. \n\tMoves Frodo one unit in that direction. \n\tYou will be notified if reached a mushroom.")
+  print(Fore.GREEN + "COLLECT MUSHROOM" + Style.RESET_ALL + "\n\tIf you have reached a mushroom, it will be collected.")
+  print(Fore.GREEN + "COUNT MUSHROOMS" + Style.RESET_ALL + "\n\t Reports how many mushrooms you have stolen.")
+  print(Fore.GREEN + "USE MUSHROOMS " + Style.RESET_ALL + "\n\tUses one of each kind of mushroom (Morel and Cremini) to see a map of the field. \n\t" + Fore.GREEN + "F" + Style.RESET_ALL + " is Frodo\n\t" + Fore.RED + "G, F, W, B, T" + Style.RESET_ALL + " are dogs (Grip, Fang, Wolf, Bear, and Tank)\n\t+ are mushrooms \n\to are areas where mushrooms were collected\n\tStarting position of the field:")
+  print("\t- - - - - - - - - - - -")
+  print("\t| "+ Fore.RED + "G " + Style.RESET_ALL + "+ + + " + Fore.RED + "F " + Style.RESET_ALL + "+ + + + " + Fore.RED + "W " + Style.RESET_ALL + "|")
+  for y in range(3):
+    str = '\t| '
+    for x in range(10):
+      str+= Style.RESET_ALL + "+ "
+    str+= Style.RESET_ALL + "|"
+    print(str)
+  print("\t| "+ Fore.RED + "B " + Style.RESET_ALL + "+ + + + + + + + " + Fore.RED + "T " + Style.RESET_ALL + "|")
+  for y in range(4):
+    str = '\t| '
+    for x in range(10):
+      str+= Style.RESET_ALL + "+ "
+    str+= Style.RESET_ALL + "|"
+    print(str)
+  print("\t| + + + + " + Fore.GREEN + "F " + Style.RESET_ALL + "+ + + + + |")
+  print("\t- - - - - - - - - - - -")
+
+
+def modify_up():
+  global count
+  count = count + 1
+def modify_down():
+  global count
+  count = count - 1
+
+def modifyc():
+  global cc
+  cc = cc + 1
+def modifym():
+  global mc
+  mc = mc + 1
+
+def modifycdown():
+  global cc
+  cc = cc - 1
+def modifymdown():
+  global mc
+  mc = mc - 1
+
+def barking():
+  if (abs(dogs[0] - frodo[0]) <= 3) and ( abs(dogs[1] - frodo[1]) <= 3):
+    print(Fore.RED + "The barking is loud - they're close." + Style.RESET_ALL)
+  elif (abs(dogs2[0] - frodo[0]) <= 3) and ( abs(dogs2[1] - frodo[1]) <= 3):
+    print(Fore.RED + "The barking is loud - they're close." + Style.RESET_ALL)
+  elif (abs(dogs3[0] - frodo[0]) <= 3) and ( abs(dogs3[1] - frodo[1]) <= 3):
+    print(Fore.RED + "The barking is loud - they're close." + Style.RESET_ALL)
+  elif (abs(dogs4[0] - frodo[0]) <= 3) and ( abs(dogs4[1] - frodo[1]) <= 3):
+    print(Fore.RED + "The barking is loud - they're close." + Style.RESET_ALL)
+  elif (abs(dogs5[0] - frodo[0]) <= 3) and ( abs(dogs5[1] - frodo[1]) <= 3):
+    print(Fore.RED + "The barking is loud - they're close." + Style.RESET_ALL)
+  elif (abs(dogs[0] - frodo[0]) <= 5) and (abs(dogs[1] - frodo[1]) <= 5):
+    print(Fore.RED + "You can hear the dogs barking." + Style.RESET_ALL)
+  elif (abs(dogs2[0] - frodo[0]) <= 5) and (abs(dogs2[1] - frodo[1]) <= 5):
+    print(Fore.RED + "You can hear the dogs barking." + Style.RESET_ALL)
+  elif (abs(dogs3[0] - frodo[0]) <= 5) and (abs(dogs3[1] - frodo[1]) <= 5):
+    print(Fore.RED + "You can hear the dogs barking." + Style.RESET_ALL)
+  elif (abs(dogs4[0] - frodo[0]) <= 5) and (abs(dogs4[1] - frodo[1]) <= 5):
+    print(Fore.RED + "You can hear the dogs barking." + Style.RESET_ALL)
+  elif (abs(dogs5[0] - frodo[0]) <= 5) and (abs(dogs5[1] - frodo[1]) <= 5):
+    print(Fore.RED + "You can hear the dogs barking." + Style.RESET_ALL)
+
+
+def move_dog():
+ if random.randrange(2) == 1:
+   invalid = True
+   while invalid:
+     invalid = False
+     val = random.randrange(5)
+     if val == 0 and dogs[0] > 0:
+       dogs[0] = dogs[0]-1
+       barking()
+     elif val == 3 and dogs[0] < 9:
+       dogs[0] = dogs[0]+1
+       barking()
+     elif val == 2 and dogs[1] > 0:
+       dogs[1] = dogs[1] - 1
+       barking()
+     elif (val == 1) and dogs[1] < 9:
+       dogs[1] = dogs[1] + 1
+       barking()
+     else:
+       invalid = True
+ 
+def move_dog2():
+ if random.randrange(2) == 1:
+   invalid = True
+   while invalid:
+     invalid = False
+     val = random.randrange(5)
+     if val == 0 and dogs2[0] > 0:
+       dogs2[0] = dogs2[0]-1
+     elif val == 3 and dogs2[0] < 9:
+       dogs2[0] = dogs2[0]+1
+     elif val == 2 and dogs2[1] > 0:
+       dogs2[1] = dogs2[1] - 1
+     elif (val == 1) and dogs2[1] < 9:
+       dogs2[1] = dogs2[1] + 1
+     else:
+       invalid = True
+ 
+def move_dog3():
+ if random.randrange(2) == 1:
+   invalid = True
+   while invalid:
+     invalid = False
+     val = random.randrange(5)
+     if val == 0 and dogs3[0] > 0:
+       dogs3[0] = dogs3[0]-1
+     elif val == 3 and dogs3[0] < 9:
+       dogs3[0] = dogs3[0]+1
+     elif val == 2 and dogs3[1] > 0:
+       dogs3[1] = dogs3[1] - 1
+     elif (val == 1) and dogs3[1] < 9:
+       dogs3[1] = dogs3[1] + 1
+     else:
+       invalid = True
+ 
+def move_dog4():
+ if random.randrange(2) == 1:
+   invalid = True
+   while invalid:
+     invalid = False
+     val = random.randrange(5)
+     if val == 0 and dogs4[0] > 0:
+       dogs4[0] = dogs4[0]-1
+     elif val == 3 and dogs4[0] < 9:
+       dogs4[0] = dogs4[0]+1
+     elif val == 2 and dogs4[1] > 0:
+       dogs4[1] = dogs4[1] - 1
+     elif (val == 1) and dogs4[1] < 9:
+       dogs4[1] = dogs4[1] + 1
+     else:
+       invalid = True
+ 
+def move_dog5():
+ if random.randrange(2) == 1:
+   invalid = True
+   while invalid:
+     invalid = False
+     val = random.randrange(5)
+     if val == 0 and dogs5[0] > 0:
+       dogs5[0] = dogs5[0] - 1
+     elif val == 3 and dogs5[0] < 9:
+       dogs5[0] = dogs5[0] + 1
+     elif val == 2 and dogs5[1] > 0:
+       dogs5[1] = dogs5[1] - 1
+     elif (val == 1) and dogs5[1] < 9:
+       dogs5[1] = dogs5[1] + 1
+     else:
+       invalid = True
+ 
+def move_frodo(direction):
+  if direction == 'west':
+    if frodo[0] > 0:
+      move_dog5()
+      move_dog4()
+      move_dog3()
+      move_dog2()
+      move_dog()
+      print(Style.RESET_ALL + "Moving West.")
+      frodo[0] = frodo[0] - 1
+      if frodo not in collected:
+        if types[frodo[1]*10+frodo[0]] == 1:
+          print("Found a Cremini mushroom!")
+        else:
+          print("Found a Morel mushroom!")
+      if dogs == frodo or dogs2 == frodo or dogs3 == frodo or dogs4 == frodo or dogs5 == frodo:
+        print(Fore.RED + "\n\n\n\n\nGAME OVER\nFarmer Maggot's dogs caught you." + Style.RESET_ALL)
+        print("Oh wait... here comes Farmer Maggot.")
+        farmerMaggot(1)
+        return 1
+    else:
+      print(Style.RESET_ALL + "Oops, you've hit the gate.")
+  elif direction == 'east':
+    if frodo[0] < 9:
+      move_dog5()
+      move_dog4()
+      move_dog3()
+      move_dog2()
+      move_dog()
+      print(Style.RESET_ALL + "Moving East.")
+      frodo[0] = frodo[0] + 1
+      if frodo not in collected:
+        if types[frodo[1]*10+frodo[0]] == 1:
+          print("Found a Cremini mushroom!")
+        else:
+          print("Found a Morel mushroom!")
+      if dogs == frodo or dogs2 == frodo or dogs3 == frodo or dogs4 == frodo or dogs5 == frodo:
+        print(Fore.RED + "\n\n\n\n\nGAME OVER\nFarmer Maggot's dogs caught you." + Style.RESET_ALL)
+        print("Oh wait... here comes Farmer Maggot.")
+        farmerMaggot(1)
+        return 1
+    else:
+      print(Style.RESET_ALL + "Oops, you've hit the gate.")
+  elif direction == 'north':
+    if frodo[1] > 0:
+      move_dog5()
+      move_dog4()
+      move_dog3()
+      move_dog2()
+      move_dog()
+      print(Style.RESET_ALL + "Moving North.")
+      frodo[1] = frodo[1] - 1
+      if frodo not in collected:
+        if types[frodo[1]*10+frodo[0]] == 1:
+          print("Found a Cremini mushroom!")
+        else:
+          print("Found a Morel mushroom!")
+      if dogs == frodo or dogs2 == frodo or dogs3 == frodo or dogs4 == frodo or dogs5 == frodo:
+        print(Fore.RED + "\n\n\n\n\nGAME OVER\nFarmer Maggot's dogs caught you." + Style.RESET_ALL)
+        print("Oh wait... here comes Farmer Maggot.")
+        farmerMaggot(1)
+        return 1
+    else:
+      print(Style.RESET_ALL + "Oops, you've hit the gate.")
+  elif direction == 'south':
+    if frodo[1] < 9:
+      move_dog5()
+      move_dog4()
+      move_dog3()
+      move_dog2()
+      move_dog()
+      print(Style.RESET_ALL + "Moving South.")
+      frodo[1] = frodo[1] + 1
+      if frodo not in collected:
+        if types[frodo[1]*10+frodo[0]] == 1:
+          print("Found a Cremini mushroom!")
+        else:
+          print("Found a Morel mushroom!")
+      if dogs == frodo or dogs2 == frodo or dogs3 == frodo or dogs4 == frodo or dogs5 == frodo:
+        print(Fore.RED + "\n\n\n\n\nGAME OVER\nFarmer Maggot's dogs caught you." + Style.RESET_ALL)
+        print("Oh wait... here comes Farmer Maggot.")
+        farmerMaggot(1)
+        return 1
+    else:
+      print(Style.RESET_ALL + "Oops, you've hit the gate.")
+  else:
+    print(Style.RESET_ALL + "Not a valid direction.")
+
+
+def collect():
+  current = [frodo[0], frodo[1]]
+  if current not in collected:
+    collected.append(current)
+    modify_up()
+    if types[frodo[1]*10+frodo[0]] == 1:
+      modifyc()
+    else:
+      modifym()
+    print(Style.RESET_ALL + "Mushroom collected.")
+  else:
+    print(Style.RESET_ALL + "No mushrooms here.")
+
+
+def draw():
+  print(Style.RESET_ALL)
+  print("- - - - - - - - - - - -")
+  for y in range(10):
+    str = Style.RESET_ALL + '| '
+    for x in range(10):
+      if frodo == [x,y]:
+        str+= Fore.GREEN + "F "
+      elif dogs == [x,y]:
+        str+= Fore.RED + "G "
+      elif dogs2 == [x,y]:
+        str+= Fore.RED + "F "
+      elif dogs3 == [x,y]:
+        str+= Fore.RED + "W "
+      elif dogs4 == [x,y]:
+        str+= Fore.RED + "B "
+      elif dogs5 == [x,y]:
+        str+= Fore.RED + "T "
+      elif [x,y] in collected:
+        str+= Style.RESET_ALL + "o "
+      else:
+        str+= Style.RESET_ALL + "+ "
+    str+= Style.RESET_ALL + "|"
+    print(str)
+  print("- - - - - - - - - - - -")
+
+
+def testing():
+  print(frodo)
+  print(collected)
+  print(dogs)
+  print(dogs2)
+  print(count)
+  draw()
+ 
+def farmerMaggot(number):
+  if number == 1:
+    time.sleep(2)
+    print("'Son, what do you think you're doing?'")
+    time.sleep(1)
+    input(Style.DIM + "respond to Farmer Maggot:" + Style.RESET_ALL + "\n>")
+    time.sleep(2)
+    print("*Farmer Maggot scoffs, irritated.*")
+    time.sleep(2)
+    print("'See, lads, next time this young varmint sets foot on my land, you can eat him. Now see him off!'")
+    time.sleep(2)
+    print(Fore.RED + "GAME OVER.")
+    return
+  if number == 2:
+    print(Style.RESET_ALL + "'And what do you think you're doing on my land?'")
+    time.sleep(1)
+    response = input(Style.DIM + "respond to Farmer Maggot: " + Style.RESET_ALL + "\n>")
+    time.sleep(2)
+    if re.search('sorry', response, re.IGNORECASE) or re.search('apologize', response, re.IGNORECASE) or re.search('apologies', response, re.IGNORECASE):
+      print("*scoffs*")
+      time.sleep(2)
+      print("'A sorry will not cut it. Give me the mushrooms.'")
+      time.sleep(2)
+      response = input(Style.DIM + "To respond with actions, place them inside asterisks *like this*\n" + Style.RESET_ALL+">")
+      if (re.search('\*', response) and (re.search('give', response, re.IGNORECASE) or re.search('hand over', response, re.IGNORECASE) or re.search('hands over', response, re.IGNORECASE) or re.search('gives', response, re.IGNORECASE))):
+        time.sleep(2)
+        print("*Farmer Maggot takes your basket*")
+        time.sleep(2)
+        print("*looks inside*")
+        time.sleep(2)
+        if cc > mc:
+          print("'Hm. Mostly Crimini mushrooms?'")
+          time.sleep(2)
+          input("'And what were you planning to do with those, might I ask?'\n<")
+          time.sleep(2)
+          print("'Well I particularly like Morel myself. Take your basket and run my boy.'")
+          time.sleep(2)
+          input("'Before I let my dogs on you.'\n>")
+          print(Fore.RED + "GAME OVER")
+          return
+        elif mc < 5:
+          input("'Didn't get too many now did you?'\n>")
+          time.sleep(2)
+          input("'Well this won't do you any good anyways. Come in for some Morel soup, just made some fresh.'\n>")
+          time.sleep(2)
+          print("'But I hope I never see you try to steal after this!'")
+          time.sleep(2)
+          print(Fore.RED + "GAME OVER")
+          return
+        else:
+          print("'Plenty of Morel mushrooms I see.'")
+          time.sleep(2)
+          response = input("'And what were you planning to do with those?'\n>")
+          if re.search('soup', response, re.IGNORECASE):
+            time.sleep(2)
+            input("'Morel soup is my favorite. Take these and run along boy, but don't come back.'\n>")
+            time.sleep(2)
+            print(Fore.RED + "GAME OVER")
+            return
+          elif re.search('pasta', response, re.IGNORECASE):
+            if mc < 10:
+              time.sleep(2)
+              input("'Well this wouldn't be enough for pasta now would it.'\n>")
+              time.sleep(2)
+              input("'Take these and run, but don't you dare take any more.'\n>")
+              time.sleep(2)
+              print("*hands over basket, and whispers*")
+              time.sleep(1)
+              print("'If you can't make pasta, just sautée them in butter, then season them with salt and pepper.'")
+              time.sleep(2)
+              print("'Now get out of here!'")
+              time.sleep(2)
+              print(Fore.RED + "GAME OVER")
+              return
+            else:
+              time.sleep(2)
+              input("'Well son if you love Morel pasta so much you should consider having your own garden, instead of stealing from mine.'\n>")
+              time.sleep(2)
+              print("*takes some of the mushrooms out of the basket*")
+              time.sleep(2)
+              print("'I'll be taking most of these back, as they are mine. Remember that.'")
+              time.sleep(2)
+              print("'But just this once you can have the rest.'")
+              time.sleep(1)
+              print("'Just this once. Because I'm feeling generous.'")
+              time.sleep(2)
+              input("'Now get out of here, before I let my dogs on you.'\n>")
+              time.sleep(2)
+              print(Fore.RED + "GAME OVER")
+              return
+          else:
+            time.sleep(2)
+            print("'Hm. Well personally I prefer Morel soup.'")
+            time.sleep(2)
+            print("'If you weren't in the middle of stealing my mushroom's I'd give you a recipe.'")
+            time.sleep(2)
+            print("'Take these and run off now. Don't try to come back to steal more.'")
+            print(Fore.RED + "GAME OVER")
+            return
+      else:
+        response = input("'Excuse me son. Hand over the mushrooms, or I will bring my dogs over as well.'\n>")
+        if re.search('\*', response) and (re.search('give', response, re.IGNORECASE) or re.search('hand over', response, re.IGNORECASE) or re.search('hands over', response, re.IGNORECASE), re.search('gives', response, re.IGNORECASE)):
+          time.sleep(2)
+          print("*Farmer Maggot takes your basket*")
+          print("'Hmf. Now get out of here.'")
+          print(Fore.RED + "GAME OVER")
+          return
+        else:
+          time.sleep(2)
+          response = input("'You absolute monster. What is your name?'\n>")
+          time.sleep(2)
+          if re.search('Frodo', response, re.IGNORECASE):
+            print("'Well, Frodo. I hope I never see you again, or you will be sorry.'")
+            time.sleep(2)
+            print("*calls his dogs over*")
+            time.sleep(1)
+            print("'Tank, see him off!'")
+            time.sleep(3)
+            print("*turns to you* - 'You better run boy.'")
+            print(Fore.RED + "GAME OVER")
+            return
+          else:
+            time.sleep(2)
+            print("'You filthy little liar. You look like that Baggins' son to me, you do.")
+            time.sleep(2)
+            print("'I will be speaking to your father, and I hope to never see you again.'")
+            time.sleep(2)
+            print("*call his dogs over*")
+            time.sleep(1)
+            print("'Tank, see him off!'")
+            print(Fore.RED + "GAME OVER")
+            return
+      return
+    else:
+      input("'I will be needing an apology. And those mushrooms.'\n>")
+      time.sleep(2)
+      print("*Farmer Maggot snatches the basket of mushrooms from your hand.*")
+      print("'Get out of here, you scoundrel!!'")
+      print(Fore.RED + "GAME OVER")
+      return
+
+def action(phrase):
+  if len(collected) == 100:
+    print(Style.GREEN + "CONGRATS! You've stolen all the mushrooms.")
+    return
+  if time.time() - start >= 60:
+    print(Fore.RED + "You didn't escape, and it's been 60 seconds.\n Here comes Farmer Maggot..." + Style.RESET_ALL)
+    time.sleep(2)
+    farmerMaggot(2)
+    return
+  str_val = phrase
+  pattern1 = '^run to (ferry|gate)$'
+  pattern2 = '^move (east|west|north|south)$'
+  pattern3 = '^use mushrooms$'
+  pattern4 = '^collect mushroom$'
+  pattern5 = '^count mushrooms$'
+  pattern6 = '^help$'
+  run = re.match(pattern1, str_val, re.IGNORECASE)
+  move = re.match(pattern2, str_val, re.IGNORECASE)
+  use = re.match(pattern3, str_val, re.IGNORECASE)
+  collectt = re.match(pattern4, str_val, re.IGNORECASE)
+  countt = re.match(pattern5, str_val, re.IGNORECASE)
+  helpp = re.match(pattern6, str_val, re.IGNORECASE)
+  if run:
+    print(Style.RESET_ALL + "You've escaped with " + str(count) + " mushrooms.")
+    if mc > 9:
+      print("Congrats, you can make a lovely Morel pasta!")
+    elif mc > 4:
+      print("Congrats, you can make a lovely Morel soup!")
+    else:
+      print("Not enough for dinner, but a victory nonetheless.")
+    return
+  elif move:
+    if move_frodo(move.group(1)) != 1:
+      action(input(Fore.GREEN + ">"))
+    else:
+      return
+    print(Style.RESET_ALL)
+  elif use:
+    if count > 1:
+      draw()
+      modify_down()
+      modify_down()
+      modifycdown()
+      modifymdown()
+      print(Style.RESET_ALL + "You have " + str(count) + " mushrooms.")
+      action(input(Fore.GREEN + ">"))
+      print(Style.RESET_ALL)
+    else:
+      print(Style.RESET_ALL + "You don't have any mushrooms to use!")
+    action(input(Fore.GREEN + ">"))
+    print(Style.RESET_ALL)
+  elif collectt:
+    collect()
+    action(input(Fore.GREEN + ">"))
+    print(Style.RESET_ALL)
+  elif countt:
+    print(Style.RESET_ALL + "You have " + str(cc) + " Cremini mushrooms and " + str(mc) + " Morel mushrooms, totalling " + str(count) + " mushrooms. " )
+    action(input(Fore.GREEN + ">"))
+    print(Style.RESET_ALL)
+  elif helpp:
+    helpf()
+    action(input(Fore.GREEN + ">"))
+    print(Style.RESET_ALL)
+  else:
+    print(Style.RESET_ALL + "Invalid command. Type HELP to see instructions.")
+    action(input(Fore.GREEN + ">"))
+    print(Style.RESET_ALL)
+
+ 
+ 
+def intro_script():
+  print(Style.DIM + "Welcome Frodo.")
+  time.sleep(2)
+  print("You’ve arrived at Farmer Maggot’s gate. Hobbits love their mushrooms… but dogs love their hobbits.")
+  time.sleep(4)
+  print("It's dark out. \nIf you choose to enter the gate, enter with caution.")
+  time.sleep(4)
+  print("\nWe know you love " + Style.RESET_ALL + "Morel mushrooms " + Style.DIM + "- you need " + Style.RESET_ALL + "5" + Style.DIM + " to make soup, " + Style.RESET_ALL + "10" + Style.DIM + " for pasta.")
+  time.sleep(4)
+  print("Whatever you do, please avoid being eaten by Farmer Maggot’s dogs.")
+  print(Style.RESET_ALL + "You will hear them barking when they're close.")
+  time.sleep(4)
+  print(Style.DIM + "Farmer Maggot will probably come out in about " + Style.RESET_ALL + "60 seconds" + Style.DIM + " once you step foot within his gates.")
+  time.sleep(4)
+  response = input("Type " + Style.RESET_ALL + "HELP" + Style.DIM + " to see the instructions now, or at any time. Type " + Style.RESET_ALL + "SKIP " + Style.DIM + "to continue without instructions for now.\n" + Style.RESET_ALL + ">")
+  if re.search('help', response, re.IGNORECASE):
+    helpf()
+  input(Style.RESET_ALL + "\nPRESS ENTER TO BEGIN")
+  global start
+  start = time.time()
+  print(Style.DIM + "You've entered the gate.")
+  print("You have 60 seconds." + Style.RESET_ALL)
+
+intro_script()
+typesofmushrooms()
+action(input(Fore.GREEN + ">"))
+print(Style.RESET_ALL)
